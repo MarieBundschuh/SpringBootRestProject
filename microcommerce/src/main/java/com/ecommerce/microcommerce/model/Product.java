@@ -2,14 +2,31 @@ package com.ecommerce.microcommerce.model;
 
 import com.fasterxml.jackson.annotation.JsonFilter;
 
-@JsonFilter("monFiltre")
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+//@JsonFilter("monFiltre")
+@Entity
 public class Product {
 
+    /** Product Id */
+    @Id
+    @GeneratedValue
     private int id;
+
+    /** Product name */
     private String nom;
+
+    /** Product price */
     private int prix;
 
+    /** Product purchase price */
     private int prixAchat;
+
+    public Product(){
+        super();
+    }
 
     public Product(int id, String nom, int prix, int prixAchat) {
         this.id = id;

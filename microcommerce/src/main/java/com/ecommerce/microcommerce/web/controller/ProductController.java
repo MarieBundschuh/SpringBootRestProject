@@ -30,10 +30,26 @@ public class ProductController {
 
     }
 
+    @GetMapping(value = "/Produits/PrixMax/{prixLimit}")
+    public List<Product> cherchePrixMax(@PathVariable int prixLimit){
+        return productDao.findByPrixGreaterThan(prixLimit);
+    }
+
+    @GetMapping(value = "/Produits/PrixCher/{prixCher}")
+    public List<Product> cherchePrixCher(@PathVariable int prixCher){
+        return productDao.chercherUnProduitCher(prixCher);
+    }
+
+    @GetMapping(value = "/Produits/Find/{recherche}")
+    public List<Product> rechercheParNom(@PathVariable String recherche){
+        return productDao.findByNomLike("%" + recherche + "%");
+    }
+
+
     //@RequestMapping(value = "/Produits/{id}", method = RequestMethod.GET)
     @GetMapping(value = "/Produits/{id}")
     public Product afficherUnProduit(@PathVariable int id){
-        return  productDao.findById(id);
+        return productDao.findById(id);
     }
 
     @PostMapping(value = "/Produits")
@@ -55,9 +71,15 @@ public class ProductController {
     }
 
     @DeleteMapping(value = "/Produits/{id}")
-    public Product supprimerUnProduit(@PathVariable int id){
-        return productDao.delete(id);
+    public void supprimerUnProduit(@PathVariable int id){
+        productDao.deleteById(id);
     }
+
+    @PutMapping(value = "/Produits")
+    public void majUnProduit(@RequestBody Product product){
+        productDao.save(product);
+    }
+
 
 
 }

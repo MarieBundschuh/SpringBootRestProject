@@ -1,3 +1,5 @@
+/** Not used anymore with JPA
+
 package com.ecommerce.microcommerce.dao;
 
 import com.ecommerce.microcommerce.model.Product;
@@ -39,3 +41,4 @@ public class ProductDaoImpl implements ProductDao {
         return productToRemove;
     }
 }
+ */
