@@ -1,10 +1,12 @@
 package com.ecommerce.microcommerce.model;
 
 import com.fasterxml.jackson.annotation.JsonFilter;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.validation.constraints.Min;
 
 //@JsonFilter("monFiltre")
 @Entity
@@ -16,9 +18,11 @@ public class Product {
     private int id;
 
     /** Product name */
+    @Length(min=3, max=20, message="Nom trop long ou trop court")
     private String nom;
 
     /** Product price */
+    @Min(value=1)
     private int prix;
 
     /** Product purchase price */
