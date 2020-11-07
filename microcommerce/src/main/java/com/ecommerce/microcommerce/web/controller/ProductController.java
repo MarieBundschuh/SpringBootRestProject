@@ -1,6 +1,7 @@
 package com.ecommerce.microcommerce.web.controller;
 import com.ecommerce.microcommerce.dao.ProductDao;
 import com.ecommerce.microcommerce.model.Product;
+import com.ecommerce.microcommerce.web.exception.ProduitGratuitException;
 import com.ecommerce.microcommerce.web.exception.ProduitIntrouvableException;
 import com.fasterxml.jackson.databind.ser.FilterProvider;
 import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
@@ -16,6 +17,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Api ( description =  "Api pour CRUD sur les produits")
@@ -68,6 +71,10 @@ public class ProductController {
 
     @PostMapping(value = "/Produits")
     public ResponseEntity<Void> sauvegarderUnProduit(@Valid @RequestBody Product produit){
+
+        if (produit.getPrix() == 0){
+            throw new ProduitGratuitException("Le prix doit être supperieur à 0");
+        }
         Product productAdded = productDao.save(produit);
 
         if (productAdded == null ){
@@ -93,4 +100,22 @@ public class ProductController {
     public void majUnProduit(@RequestBody Product product){
         productDao.save(product);
     }
+
+    @RequestMapping(value = "/AdminProduits")
+    public HashMap<String, String> calculerMargeProduit(){
+        HashMap<String, String> resultats = new HashMap<String, String>();
+
+        for (Product product : productDao.findAll()) {
+            int marge = product.getPrix() - product.getPrixAchat();
+            resultats.put(product.toString(), String.valueOf(marge));
+        }
+        return resultats;
+    }
+
+    @RequestMapping(value = "/Produits/trier/")
+    public List<Product> trierProduitsParOrdreAlphabetique(){
+        //return productDao.findAll(Sort.by("nom").ascending());
+        return productDao.findAllByOrderByNom();
+    }
+
 }
