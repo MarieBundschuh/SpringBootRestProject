@@ -5,7 +5,10 @@ import com.ecommerce.microcommerce.web.exception.ProduitIntrouvableException;
 import com.fasterxml.jackson.databind.ser.FilterProvider;
 import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.web.bind.annotation.*;
@@ -15,12 +18,14 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
+@Api ( description =  "Api pour CRUD sur les produits")
 @RestController
 public class ProductController {
 
     @Autowired
     private ProductDao productDao;
 
+    @ApiOperation(value = "Récupère la liste de tous les produits")
     @RequestMapping(value="/Produits", method= RequestMethod.GET)
     public MappingJacksonValue listeProduits(){
         List<Product> produits = productDao.findAll();
@@ -32,7 +37,7 @@ public class ProductController {
 
     }
 
-    @GetMapping(value = "/Produits/PrixMax/{prixLimit}")
+    @GetMapping(value = "Test/Produits/PrixMax/{prixLimit}")
     public List<Product> cherchePrixMax(@PathVariable int prixLimit){
         return productDao.findByPrixGreaterThan(prixLimit);
     }
@@ -42,6 +47,7 @@ public class ProductController {
         return productDao.chercherUnProduitCher(prixCher);
     }
 
+    @ApiOperation(value = "Recherche un produit avec une partie de son nom")
     @GetMapping(value = "/Produits/Find/{recherche}")
     public List<Product> rechercheParNom(@PathVariable String recherche){
         return productDao.findByNomLike("%" + recherche + "%");
@@ -87,7 +93,4 @@ public class ProductController {
     public void majUnProduit(@RequestBody Product product){
         productDao.save(product);
     }
-
-
-
 }
