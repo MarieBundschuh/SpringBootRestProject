@@ -1,0 +1,16 @@
+[Unit]
+Description=My Java Service
+
+[Service]
+User=someuser
+# The configuration file application.properties should be here:
+WorkingDirectory=/home/ec2-user
+ExecStart=/usr/bin/java -Xmx256m -jar /home/ec2-user/microcommerce-0.0.1-SNAPSHOT.jar
+SuccessExitStatus=143
+TimeoutStopSec=10
+Restart=on-failure
+RestartSec=5
+User=ec2-user
+
+[Install]
+WantedBy=multi-user.target
