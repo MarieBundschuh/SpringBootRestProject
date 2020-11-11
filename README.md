@@ -14,9 +14,7 @@ Test du projet.
 
 http://15.188.41.228:9090/swagger-ui.html#/
 
-********************************************************
-
-This method uses the modern systemd way to run a Java JAR (i.e. a Spring Boot app) as a daemon as opposed to using the older method of using init.d (SystemV). Using the "&" symbol to run the process in the background isn't sufficient b/c the process will be shut down when the terminal closes (or when you exit your SSH session if remoting in to the machine). Using the "nohup" command is another option, but that is like the "poor man's way" of running a service: doesn't restart on machine reboot; program ignores interrupts, quit signals, and hangups. For more info see: https://stackoverflow.com/questions/958249/whats-the-difference-between-nohup-and-a-daemon .
+# How to start the JAR file as a Service on Linux
 
 Anyways, to create a Linux daemon the systemd way:
 
@@ -28,8 +26,6 @@ Create a service file in /etc/systemd/system. Let's call it javaservice.service.
 Description=My Java Service
 
 [Service]
-User=someuser
-# The configuration file application.properties should be here:
 WorkingDirectory=/home/ec2-user
 ExecStart=/usr/bin/java -Xmx256m -jar /home/ec2-user/microcommerce-0.0.1-SNAPSHOT.jar
 SuccessExitStatus=143
