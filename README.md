@@ -1,5 +1,5 @@
 # SpringBootRestProject
-SpringBoot Rest Tutorial From OpenClassRoomq
+SpringBoot Rest Tutorial From OpenClassRooms
 
 Swagger
 http://localhost:9090/swagger-ui.html#/
