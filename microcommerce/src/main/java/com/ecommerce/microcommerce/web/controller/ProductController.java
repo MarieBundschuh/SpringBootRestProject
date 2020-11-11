@@ -101,7 +101,7 @@ public class ProductController {
         productDao.save(product);
     }
 
-    @RequestMapping(value = "/AdminProduits")
+    @GetMapping(value = "/AdminProduits")
     public HashMap<String, String> calculerMargeProduit(){
         HashMap<String, String> resultats = new HashMap<String, String>();
 
@@ -112,7 +112,7 @@ public class ProductController {
         return resultats;
     }
 
-    @RequestMapping(value = "/Produits/trier/")
+    @GetMapping(value = "/Produits/trier/")
     public List<Product> trierProduitsParOrdreAlphabetique(){
         //return productDao.findAll(Sort.by("nom").ascending());
         return productDao.findAllByOrderByNom();
